@@ -1,4 +1,4 @@
-html {
+ºhtml {
   font-size: 10px;
   height: 100%;
   width: 100%;
@@ -70,7 +70,7 @@ body {
 .box.num-64   { background: #b74908; }
 .box.num-128  { background: #900c3f; }
 .box.num-256  { background: #581845; }
-.box.num-512  { background: #350a28; }
+.box.num-512  { background: #770b56; }
 .box.num-1024 { background: #341858; font-size: 50px; padding-top: 35px; }
 .box.num-2048 { background: black; font-size: 50px; padding-top: 35px; }
 
