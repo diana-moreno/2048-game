@@ -8,11 +8,11 @@ function Game2048 () {
 
   this.score = 0;
   this.win   = false;
-  this.lost  = false;
+  this.lose  = false;
 
   this._generateBox();
   this._generateBox();
-  this._showBoard()
+  this._showBoard() // to only show in the console
 }
 
 
@@ -193,8 +193,6 @@ Game2048.prototype._checkIfLostGame = function() {
   }
   if(horizontAvailableMov === false && verticalAvailableMov === false) {
     console.log("game over")
-    this.lost = true; //lost game
+    this.lose = true; //lost game
   }
 }
-
-let game = new Game2048
