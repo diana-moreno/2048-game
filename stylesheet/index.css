@@ -1,4 +1,4 @@
-ºhtml {
+html {
   font-size: 10px;
   height: 100%;
   width: 100%;
@@ -35,7 +35,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3.5rem;
+  font-size: 5.5rem;
   font-weight: bold;
   position: absolute;
   text-shadow: 1px 1px 3px #000;
@@ -75,5 +75,24 @@ body {
 .num-2048 { background: black; font-size: 50px; padding-top: 35px; }
 
 #container-score {
-  font-size: 2rem;
+  font-size: 3rem;
+}
+
+#game-over,
+#win {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 6rem;
+  opacity: 0.9;
+  color: #d4554b;
+}
+
+#win {
+  color: #5b8092;
+}
+
+.change-opacity {
+  opacity: 0.2;
 }

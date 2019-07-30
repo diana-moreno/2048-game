@@ -27,11 +27,11 @@ function updateScore() {
 
 function gameStatus() {
   if(game.win === true) {
-    console.log('WINNNN')
-    return
+    $('.container').addClass('change-opacity')
+    $('#win').attr('style', 'display: flex')
   } else if(game.lose === true) {
-    console.log('LOSEEEE')
-    return
+    $('.container').addClass('change-opacity')
+    $('#game-over').attr('style', 'display: flex')
   }
 }
 
