@@ -50,14 +50,3 @@ function moveListeners (event) {
 }
 
 document.addEventListener("keydown", moveListeners);
-
-
-/*
-function gameStatus () {
-  if (game.win()) {
-    document.getElementById("game-over").classList = "show-won"; //estas clases no están creadas en html ni css.
-  } else if (game.lose()) {
-    document.getElementById("game-over").classList = "show-lost";//estas clases no están creadas en html ni css.
-  }
-}
-*/
