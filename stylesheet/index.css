@@ -7,6 +7,17 @@ body {
   color: #53575a;
   height: 100%;
   width: 100%;
+  background: #ffebc64f;
+}
+h2 {
+  margin: 0;
+  font-size: 5.5rem;
+}
+#title {
+  position: absolute;
+  width: max-content;
+  top: -10rem;
+  left: 17rem;
 }
 .container {
   position: absolute;
@@ -76,8 +87,11 @@ body {
 
 #container-score {
   font-size: 3rem;
+  font-size: 3.5rem;
+  position: absolute;
+  top: calc(100% - -646px);
+  width: max-content;
 }
-
 #game-over,
 #win {
   display: none;
@@ -88,11 +102,9 @@ body {
   opacity: 0.9;
   color: #d4554b;
 }
-
 #win {
   color: #5b8092;
 }
-
 .change-opacity {
   opacity: 0.2;
 }
