@@ -142,6 +142,8 @@ Game2048.prototype._moveDown = function () {
 
 // con esta función, podemos acceder a los métodos privados pasando un string como argumento que indique la dirección. Además, si hay cambio de pantalla, generará un nuevo número y lo colocará en pantalla.
 Game2048.prototype.move = function (direction) {
+  ion.sound.play("snap-[AudioTrimmer.com]");
+
   if(direction === 'left') {
     boardChanged = this._moveLeft();
   } else if (direction === 'right') {
@@ -192,7 +194,22 @@ Game2048.prototype._checkIfLostGame = function() {
     this._transposeMatrix()
   }
   if(horizontAvailableMov === false && verticalAvailableMov === false) {
-    console.log("game over")
     this.lose = true; //lost game
   }
 }
+ion.sound({
+    sounds: [
+        {
+          name: "snap-[AudioTrimmer.com]",
+          volume: 0.4
+        },
+        {
+          name: "snap",
+          volume: 0.4
+        },
+    ],
+    volume: 0.5,
+    path: "./sounds/",
+    preload: true
+});
+
