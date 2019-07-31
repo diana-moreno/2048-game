@@ -1,65 +1,78 @@
-window.onload = function () {
-  game = new Game2048();
-  showEmpyCellInDom()
-  showBoxInDom(); //muestra los valores iniciales al principio
+
+class DomLayout {
+  constructor() {
+    this.game = new Game2048();
+    this.showEmpyCellInDom()
+    this.showBoxInDom(); //muestra los valores iniciales al principio
+    this.callEventListeners();
+  }
+
+  showEmpyCellInDom() {
+    this.game.boardGame.board.forEach(function(row, rowIndex){
+      row.forEach(function (cell, cellIndex) {
+        //crea las celdas vacías
+        let emptyCell = $('<div/>').addClass('empty-cell')
+        $('#container-board').append(emptyCell);
+      });
+    });
+  }
+
+  showBoxInDom() {
+    this.game.boardGame.board.forEach(function(row, rowIndex){
+      row.forEach(function (cell, cellIndex) {
+        //si existe número en juego, añade el box correspondiente
+        if(cell) {
+          let newBox = $('<div/>')
+                      .addClass('box num-' + cell)
+                      .addClass('box-position-' + rowIndex + "-" + cellIndex);
+          $('#container-box').append(newBox);
+          newBox.text(cell);
+        }
+      });
+    });
+  }
+
+  resetBox() {
+    $('#container-box').empty();
+  }
+
+  updateScore() {
+    $('#score').text(this.game.score)
+  }
+
+  gameStatus() {
+    if(this.game.boardGame.win === true) {
+      $('.container').addClass('change-opacity')
+      $('#win').attr('style', 'display: flex')
+    } else if(this.game.boardGame.lose === true) {
+      $('.container').addClass('change-opacity')
+      $('#game-over').attr('style', 'display: flex')
+    }
+  }
+
+  playListeners (event) {
+    console.log(this.game)
+    var keys = [37, 38, 39, 40];
+    switch (event.keyCode) {
+      case 37: this.game.play('left');  break;
+      case 38: this.game.play('up');    break;
+      case 39: this.game.play('right'); break;
+      case 40: this.game.play('down');  break;
+    }
+    this.resetBox();
+    this.showBoxInDom();
+    this.updateScore();
+    this.gameStatus();
+  }
+
+  callEventListeners() {
+    document.addEventListener("keydown", this.playListeners);
+  }
+}
+
+window.onload = function () { //al cargar la página
+  let gameInDom = new DomLayout();
 };
 
 
-function showEmpyCellInDom() {
-  game.board.forEach(function(row, rowIndex){
-    row.forEach(function (cell, cellIndex) {
-      //crea las celdas vacías
-      let emptyCell = $('<div/>').addClass('empty-cell')
-      $('#container-board').append(emptyCell);
-    });
-  });
-}
 
-function showBoxInDom() {
-  game.board.forEach(function(row, rowIndex){
-    row.forEach(function (cell, cellIndex) {
-      //si existe número en juego, añade el box correspondiente
-      if(cell) {
-        let newBox = $('<div/>')
-                    .addClass('box num-' + cell)
-                    .addClass('box-position-' + rowIndex + "-" + cellIndex);
-        $('#container-box').append(newBox);
-        newBox.text(cell);
-      }
-    });
-  });
-}
-
-function resetBox() {
-  $('#container-box').empty();
-}
-
-function updateScore() {
-  $('#score').text(game.score)
-}
-
-function gameStatus() {
-  if(game.win === true) {
-    $('.container').addClass('change-opacity')
-    $('#win').attr('style', 'display: flex')
-  } else if(game.lose === true) {
-    $('.container').addClass('change-opacity')
-    $('#game-over').attr('style', 'display: flex')
-  }
-}
-
-function moveListeners (event) {
-  var keys = [37, 38, 39, 40];
-  switch (event.keyCode) {
-    case 37: game.move("left");  break;
-    case 38: game.move("up");    break;
-    case 39: game.move("right"); break;
-    case 40: game.move("down");  break;
-  }
-  resetBox();
-  showBoxInDom();
-  updateScore();
-  gameStatus();
-}
-
-document.addEventListener("keydown", moveListeners);
