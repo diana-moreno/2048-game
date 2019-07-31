@@ -1,15 +1,24 @@
 window.onload = function () {
   game = new Game2048();
+  showEmpyCellInDom()
   showBoxInDom(); //muestra los valores iniciales al principio
 };
 
-function showBoxInDom() {
+
+function showEmpyCellInDom() {
   game.board.forEach(function(row, rowIndex){
     row.forEach(function (cell, cellIndex) {
       //crea las celdas vacías
       let emptyCell = $('<div/>').addClass('empty-cell')
       $('#container-board').append(emptyCell);
-      //si hay número en juego, añade el box correspondiente
+    });
+  });
+}
+
+function showBoxInDom() {
+  game.board.forEach(function(row, rowIndex){
+    row.forEach(function (cell, cellIndex) {
+      //si existe número en juego, añade el box correspondiente
       if(cell) {
         let newBox = $('<div/>')
                     .addClass('box num-' + cell)
