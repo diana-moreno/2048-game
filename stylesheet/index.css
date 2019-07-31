@@ -13,16 +13,23 @@ h2 {
   margin: 0;
   font-size: 5.5rem;
 }
-#title {
+#title > h2 {
   position: absolute;
   width: max-content;
-  top: calc(100% - 10rem);
+  top: calc(100% - 16rem);
   left: 17rem;
+}
+#title > p {
+  position: absolute;
+  top: calc(100% - 10rem);
+  left: 6rem;
+  font-size: 3rem;
+  width: max-content;
 }
 .container {
   position: absolute;
   left: calc(50% - 31rem);
-  top: calc(50% - 31rem);
+  top: calc(50% - 27rem);
 }
 #container-board {
   box-sizing: border-box;
