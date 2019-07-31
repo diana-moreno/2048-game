@@ -1,0 +1,28 @@
+{
+  "name": "2048-game",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">   <img src=\"./img/2048-game.jpeg\" width=\"500\"> </p>",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diana-moreno/2048-game.git"
+  },
+  "keywords": [
+    "2048",
+    "game",
+    "puzzle"
+  ],
+  "author": "Diana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diana-moreno/2048-game/issues"
+  },
+  "homepage": "https://github.com/diana-moreno/2048-game#readme",
+  "dependencies": {
+    "serve": "^11.1.0"
+  }
+}
