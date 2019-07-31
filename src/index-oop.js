@@ -34,22 +34,84 @@ class BoardGame {
   }
 }
 
-let boardGame = new BoardGame()
 
 class Game2048 {
   constructor() {
+    this.boardGame = new BoardGame()
     this.score = 0;
     this.win = false;
     this.lose = false;
-  }
-  updateScore() {
+    this.boardGame.setRandomTile();
+        this.boardGame.consoleBoard();
+    this.boardGame.setRandomTile();
+        this.boardGame.consoleBoard();
+    this.boardGame.setRandomTile();
+        this.boardGame.consoleBoard();
+    this.boardGame.setRandomTile();
+        this.boardGame.consoleBoard();
+    this.boardGame.setRandomTile();
+        this.boardGame.consoleBoard();
+    this.boardGame.setRandomTile();
+        this.boardGame.consoleBoard();
+    this.boardGame.setRandomTile();
+        this.boardGame.consoleBoard();
 
+    //this.moveToLeft();
+    //this.boardGame.consoleBoard();
+    this.moveToRight();
+    this.boardGame.consoleBoard();
+  }
+  updateScore(points) {
+    this.score += points;
+  }
+  trimNulls(row) {
+    return row.filter(elem => elem);
+  }
+  fillNulls(row, direction) {
+    if(direction === "left") {
+      while(row.length < 4) {
+        row.push(null);
+      }
+    } else if (direction === "right") {
+      while(row.length < 4) {
+        row.unshift(null);
+      }
+    }
+    return row;
   }
   moveToLeft() {
-
+    let newBoardGame = [];
+    let that = this; // for inside the loop
+    this.boardGame.board.forEach(function(row, indexRow) {
+      let rowTrim = that.trimNulls(row) // trim
+      for(let i = 0; i < rowTrim.length -1; i++) { // add
+        if(rowTrim[i] === rowTrim[i + 1]) {
+          rowTrim[i] += rowTrim[i + 1];
+          rowTrim[i + 1] = null;
+        }
+      };
+      let rowTrimAfterAdd = that.trimNulls(rowTrim); // trim after add
+      let rowFill = that.fillNulls(rowTrimAfterAdd, "left"); // fill
+      newBoardGame.push(rowFill); //push
+    });
+    this.boardGame.board = newBoardGame;
   }
   moveToRight() {
-
+    let newBoardGame = [];
+    let that = this; // for inside the loop
+    this.boardGame.board.forEach(function(row, indexRow) {
+      let rowTrim = that.trimNulls(row) // trim
+      for(let i = rowTrim.length -1; i > 0; i--) { // add
+        if(rowTrim[i] === rowTrim[i - 1]) {
+          rowTrim[i] += rowTrim[i - 1];
+          rowTrim[i - 1] = null;
+        }
+      };
+      let rowTrimAfterAdd = that.trimNulls(rowTrim) // trim after add
+      let rowFill = that.fillNulls(rowTrimAfterAdd, "right") // fill
+      newBoardGame.push(rowFill); //push
+    });
+    this.boardGame.board = newBoardGame;
   }
   transposeMatrix() {
 
@@ -78,3 +140,5 @@ class Game2048 {
     });
   }
 }
+
+let game2048 = new Game2048();
