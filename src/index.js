@@ -16,6 +16,7 @@ function Game2048 () {
 }
 
 
+// busca una posición vacía
 Game2048.prototype._getEmptyPosition = function() {
   let emptyPositions = []
   this.board.forEach(function(row, iRow) {
@@ -34,6 +35,7 @@ Game2048.prototype._getEmptyPosition = function() {
 }
 
 
+// de entre las posiciones vacías, elige una al azar y le coloca un número.
 Game2048.prototype._generateBox = function() {
   let emptyPosition = this._getEmptyPosition()
   if(emptyPosition) {
@@ -42,6 +44,8 @@ Game2048.prototype._generateBox = function() {
   }
 }
 
+
+// actualiza puntuación
 Game2048.prototype._updateScore = function(points) {
   this.score += points
   if(points === 2048) {
@@ -49,11 +53,13 @@ Game2048.prototype._updateScore = function(points) {
   }
 }
 
+
+// si se mueve a la izquierda
 Game2048.prototype._moveLeft = function () {
   var newBoard = [];
   var boardChanged = false;
 
-  //filtra board para que muestre solo las casillas con valores.
+  // filtra board para que muestre solo las casillas con valores.
   this.board.forEach(row => {
     let newRow = row.filter(elem => elem !== null)
 
@@ -66,15 +72,15 @@ Game2048.prototype._moveLeft = function () {
       }
     }
 
-    //hay que eliminar los posibles espacios que queden en medio en el caso de que haya más de 2 numeros en la fila
+    // hay que eliminar los posibles espacios que queden en medio en el caso de que haya más de 2 numeros en la fila
     let newRowAfterAdds = newRow.filter(elem => elem !== null)
 
-    //rellena los espacios vacíos de la izquierda con null
+    // rellena los espacios vacíos de la izquierda con null
     while(newRowAfterAdds.length < 4) {
       newRowAfterAdds.push(null);
     }
 
-    //compara la longitud de newRow con la original de row, comparando solo los valores, sin tener en cuenta los null. Si es diferente, es que ha habido cambios y se han realizado sumas. newboard será ahora rewRow
+    // compara la longitud de newRow con la original de row, comparando solo los valores, sin tener en cuenta los null. Si es diferente, es que ha habido cambios y se han realizado sumas. newboard será ahora rewRow
     if(row.filter(elem => elem !== null) !== newRow.filter(elem => elem !== null)) {
       boardChanged = true;
       newBoard.push(newRowAfterAdds)
@@ -85,11 +91,12 @@ Game2048.prototype._moveLeft = function () {
 }
 
 
+// si se mueve a la derecha
 Game2048.prototype._moveRight = function () {
   var newBoard = [];
   var boardChanged = false;
 
-  //filtra board para que muestre solo las casillas con valores.
+  // filtra board para que muestre solo las casillas con valores.
   this.board.forEach(row => {
     let newRow = row.filter(elem => elem !== null)
 
@@ -98,18 +105,18 @@ Game2048.prototype._moveRight = function () {
       if(newRow[i-1] === newRow[i]) {
         newRow[i] = newRow[i] * 2;
         newRow[i-1] = null;
-        this._updateScore(newRow[i]); //actualizar puntuación
+        this._updateScore(newRow[i]); // actualizar puntuación
       }
     }
-    //hay que eliminar los posibles espacios que queden en medio en el caso de que haya más de 2 numeros en la fila
+    // hay que eliminar los posibles espacios que queden en medio en el caso de que haya más de 2 numeros en la fila
     let newRowAfterAdds = newRow.filter(elem => elem !== null)
 
-    //rellena los espacios vacíos de la derecha con null
+    // rellena los espacios vacíos de la derecha con null
     while(newRowAfterAdds.length < 4) {
       newRowAfterAdds.unshift(null);
     }
 
-    //compara la longitud de newRow con la original de row, comparando solo los valores, sin tener en cuenta los null. Si es diferente, es que ha habido cambios y se han realizado sumas. newboard será ahora rewRow
+    // compara la longitud de newRow con la original de row, comparando solo los valores, sin tener en cuenta los null. Si es diferente, es que ha habido cambios y se han realizado sumas. newboard será ahora rewRow
     if(row.filter(elem => elem !== null) !== newRow.filter(elem => elem !== null)) {
       boardChanged = true;
       newBoard.push(newRowAfterAdds)
@@ -119,12 +126,15 @@ Game2048.prototype._moveRight = function () {
   return boardChanged;
 }
 
+
+// función que gira la matriz, de manera que podemos reutilizar las funciones de izquierda y derecha para arriba y abajo.
 Game2048.prototype._transposeMatrix = function() {
-  //trasponer las filas por columnas
+  // trasponer las filas por columnas
   this.board = this.board[0].map((col, i) => this.board.map(row => row[i]));
 }
 
-//primero se gira hacia la derecha la matriz, se aplica el movimiento a la izquierda y después se vuelve a girar.
+
+// primero se gira hacia la derecha la matriz, se aplica el movimiento a la izquierda y después se vuelve a girar.
 Game2048.prototype._moveUp = function () {
   this._transposeMatrix()
   let boardChanged = this._moveLeft()
@@ -132,13 +142,15 @@ Game2048.prototype._moveUp = function () {
   return boardChanged
 }
 
-//primero se gira hacia la derecha la matriz, se aplica el movimiento a la derecha y después se vuelve a girar.
+
+// primero se gira hacia la derecha la matriz, se aplica el movimiento a la derecha y después se vuelve a girar.
 Game2048.prototype._moveDown = function () {
   this._transposeMatrix()
   let boardChanged = this._moveRight()
   this._transposeMatrix()
   return boardChanged
 }
+
 
 // con esta función, podemos acceder a los métodos privados pasando un string como argumento que indique la dirección. Además, si hay cambio de pantalla, generará un nuevo número y lo colocará en pantalla.
 Game2048.prototype.move = function (direction) {
@@ -158,18 +170,24 @@ Game2048.prototype.move = function (direction) {
     this._showBoard();
     this._checkIfLostGame();
   }
-};
+}
 
+
+// función que imprime por consola el tablón, a nivel interno, no se ve en el DOM.
 Game2048.prototype._showBoard = function() {
   this.board.forEach(function(row){ console.log(row); });
   console.log('Score: ' + this.score);
 }
 
 
+// función que para el sonido si se ha ganado e indica que se ha ganado.
 Game2048.prototype.winGame = function() {
+  ion.sound.pause();
   return this.win;
 }
 
+
+// función que comprueba si hay movimientos disponibles
 Game2048.prototype._checkIfAvailableMovements = function() {
   let continuePlaying = [];
   this.board.forEach(function (row, rowIndex) {
@@ -183,6 +201,8 @@ Game2048.prototype._checkIfAvailableMovements = function() {
   }
 }
 
+
+// función que comprueba si se ha perdido el juego y si es así, para el sonido.
 Game2048.prototype._checkIfLostGame = function() {
   let horizontAvailableMov = true;
   let verticalAvailableMov = true;
@@ -194,17 +214,17 @@ Game2048.prototype._checkIfLostGame = function() {
     this._transposeMatrix()
   }
   if(horizontAvailableMov === false && verticalAvailableMov === false) {
-    this.lose = true; //lost game
+    ion.sound.pause();
+    this.lose = true; // lost game
   }
 }
+
+
+// añade sonidos al juego
 ion.sound({
     sounds: [
         {
           name: "snap-[AudioTrimmer.com]",
-          volume: 0.4
-        },
-        {
-          name: "snap",
           volume: 0.4
         },
     ],
@@ -212,4 +232,3 @@ ion.sound({
     path: "./sounds/",
     preload: true
 });
-
