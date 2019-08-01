@@ -51,7 +51,6 @@ class DomLayout {
   }
 
   playListeners (event) {
-    console.log(this.game)
     var keys = [37, 38, 39, 40];
     switch (event.keyCode) {
       case 37: this.game.play('left');  break;
@@ -66,7 +65,7 @@ class DomLayout {
   }
 
   callEventListeners() {
-    document.addEventListener("keydown", this.playListeners);
+    document.addEventListener("keydown", this.playListeners.bind(this));
   }
 }
 
