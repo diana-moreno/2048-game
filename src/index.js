@@ -5,6 +5,7 @@ class BoardGame {
     this.setRandomTile();
     this.consoleBoard();
   }
+
   getAllEmptyPositions() {
     let emptyPositions = [];
     this.board.forEach(function(row, indexRow) {
@@ -15,6 +16,7 @@ class BoardGame {
     })
     return emptyPositions;
   }
+
   getEmptyRandomPosition() {
     let emptyPositions = this.getAllEmptyPositions();
     if(emptyPositions.length > 0) {
@@ -23,11 +25,13 @@ class BoardGame {
       return emptyPositions[randomPosition];
     }
   }
+
   setRandomTile() {
     const emptyRandomPosition = this.getEmptyRandomPosition();
     let randomNumber = (Math.random() < 0.8) ? 2 : 4; // This value has an 80% chance to be 2, and just a 20% chance to be 4.
     this.board[emptyRandomPosition.x][emptyRandomPosition.y] = randomNumber;
   }
+
   consoleBoard() {
     this.board.forEach(row => console.log(row));
   }
@@ -41,12 +45,15 @@ class Game2048 {
     this.win = false;
     this.lose = false;
   }
+
   updateScore(points) {
     this.score += points;
   }
+
   trimNulls(row) {
     return row.filter(elem => elem);
   }
+
   fillNulls(row, direction) {
     if(direction === "left") {
       while(row.length < 4) {
@@ -59,6 +66,7 @@ class Game2048 {
     }
     return row;
   }
+
   moveToLeft() {
     let newBoardGame = [];
     let that = this; // for inside the loop
@@ -77,6 +85,7 @@ class Game2048 {
     });
     this.boardGame.board = newBoardGame;
   }
+
   moveToRight() {
     let newBoardGame = [];
     let that = this; // for inside the loop
@@ -95,22 +104,26 @@ class Game2048 {
     });
     this.boardGame.board = newBoardGame;
   }
+
   transposeMatrix() {
     this.boardGame.board = this.boardGame.board[0].map((col, i) =>
                            this.boardGame.board.map(row => row[i]));
   }
+
   moveToUp() {
-    this.transposeMatrix()
-    this.moveToLeft()
-    this.transposeMatrix()
+    this.transposeMatrix();
+    this.moveToLeft();
+    this.transposeMatrix();
   }
+
   moveToDown() {
-    this.transposeMatrix()
-    this.moveToRight()
-    this.transposeMatrix()
+    this.transposeMatrix();
+    this.moveToRight();
+    this.transposeMatrix();
   }
+
   play(direction) {
-    //ion.sound.play("snap-[AudioTrimmer.com]"); //play sound
+    this.addSound("play");
     if(direction === 'left') {
       this.moveToLeft();
     } else if (direction === 'right') {
@@ -125,16 +138,18 @@ class Game2048 {
     this.checkLoseGame();
     this.checkWinGame();
   }
+
   checkWinGame() {
     this.boardGame.board.forEach(function(row, indexRow) {
       row.forEach(function(elem, indexElem) {
         if(elem === 2048) {
-          //ion.sound.pause(); //stop sound
+          addSound('stop');
           this.win = true; //win game
         }
       });
     });
   }
+
   checkAvailableMovements() {
     let continuePlaying = [];
     this.boardGame.board.forEach(function (row, rowIndex) {
@@ -142,10 +157,11 @@ class Game2048 {
         continuePlaying.push(row[elemIndex] != row[elemIndex +1])
       })
     })
-    let finishPlay = continuePlaying.filter(elem => !elem)
+    let finishPlay = continuePlaying.filter(elem => !elem);
     if(finishPlay.length === 0)
-      return false
+      return false;
   }
+
   checkLoseGame() {
     let horizontAvailableMov = true;
     let verticalAvailableMov = true;
@@ -156,18 +172,22 @@ class Game2048 {
       this.transposeMatrix();
     }
     if(horizontAvailableMov === false && verticalAvailableMov === false) {
-      //ion.sound.pause(); //stop sound
+      addSound('stop');
       this.lose = true; // lost game
     }
   }
-  addSound() {
+
+  addSound(statusAudio) {
     ion.sound({
       sounds: [{ name: "snap-[AudioTrimmer.com]", volume: 0.4 }],
       volume: 0.5,
       path: "./sounds/",
       preload: true
     });
+    if(statusAudio === "play") {
+      ion.sound.play("snap-[AudioTrimmer.com]"); // play sound
+    } else if(statusAudio === "stop") {
+      ion.sound.pause(); // stop sound
+    }
   }
 }
-
-//let game2048 = new Game2048();
