@@ -28,8 +28,10 @@ class BoardGame {
 
   setRandomTile() {
     const emptyRandomPosition = this.getEmptyRandomPosition();
-    let randomNumber = (Math.random() < 0.8) ? 2 : 4; // This value has an 80% chance to be 2, and just a 20% chance to be 4.
-    this.board[emptyRandomPosition.x][emptyRandomPosition.y] = randomNumber;
+    if(emptyRandomPosition) {
+      let randomNumber = (Math.random() < 0.8) ? 2 : 4; // This value has an 80% chance to be 2, and just a 20% chance to be 4.
+      this.board[emptyRandomPosition.x][emptyRandomPosition.y] = randomNumber;
+    }
   }
 
   consoleBoard() {
@@ -143,7 +145,7 @@ class Game2048 {
     this.boardGame.board.forEach(function(row, indexRow) {
       row.forEach(function(elem, indexElem) {
         if(elem === 2048) {
-          addSound('stop');
+          this.addSound('stop');
           this.win = true; //win game
         }
       });
@@ -165,14 +167,14 @@ class Game2048 {
   checkLoseGame() {
     let horizontAvailableMov = true;
     let verticalAvailableMov = true;
-    if(!this.boardGame.getEmptyRandomPosition() && !this.winGame()) { // si no hay casillas libres y no ha ganado
+    if(!this.boardGame.getEmptyRandomPosition() && !this.checkWinGame()) { // si no hay casillas libres y no ha ganado
       horizontAvailableMov = this.checkAvailableMovements();
       this.transposeMatrix();
       verticalAvailableMov = this.checkAvailableMovements();
       this.transposeMatrix();
     }
     if(horizontAvailableMov === false && verticalAvailableMov === false) {
-      addSound('stop');
+      this.addSound('stop');
       this.lose = true; // lost game
     }
   }

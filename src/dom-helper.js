@@ -41,10 +41,10 @@ class DomLayout {
   }
 
   gameStatus() {
-    if(this.game.boardGame.win === true) {
+    if(this.game.win === true) {
       $('.container').addClass('change-opacity')
       $('#win').attr('style', 'display: flex')
-    } else if(this.game.boardGame.lose === true) {
+    } else if(this.game.lose === true) {
       $('.container').addClass('change-opacity')
       $('#game-over').attr('style', 'display: flex')
     }
@@ -70,7 +70,7 @@ class DomLayout {
 }
 
 window.onload = function () { //al cargar la página
-  let gameInDom = new DomLayout();
+  new DomLayout();
 };
 
 
